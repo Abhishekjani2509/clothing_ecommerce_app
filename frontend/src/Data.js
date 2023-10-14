@@ -22,3 +22,55 @@ export const Data = [
         desc: " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non, odio!"
     }
 ];
+
+export const categories = [
+    {
+        id:0,
+        img:"",
+        title: "Tshirt"
+    },
+    {
+        id:1,
+        img:"",
+        title: "Jeans"
+    },
+    {
+        id:2,
+        img:"",
+        title: "Shoes",
+    }
+];
+export const productitems = [
+    {
+        id:0,
+        img:""
+    },
+    {
+        id:1,
+        img:""
+    },
+    {
+        id:2,
+        img:""
+    },
+    {
+        id:3,
+        img:""
+    },
+    {
+        id:4,
+        img:""
+    },
+    {
+        id:5,
+        img:""
+    },
+    {
+        id:6,
+        img:""
+    },
+    {
+        id:7,
+        img:""
+    }
+];

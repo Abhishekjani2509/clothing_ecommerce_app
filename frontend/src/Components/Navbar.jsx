@@ -2,10 +2,10 @@ import { Search, ShoppingCartOutlined } from "@mui/icons-material";
 import { Badge } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
-
 const Container = styled.div`
   height: 70px;
 `;
+
 const Wrapper = styled.div`
   padding: 0px 20px;
   display: flex;
@@ -18,8 +18,8 @@ const Left = styled.div`
   align-items: center;
 `;
 const Center = styled.div`
-flex: 1;
-text-align: center;
+  flex: 1;
+  text-align: center;
 `;
 const Right = styled.div`
   flex: 1;
@@ -47,7 +47,7 @@ const Input = styled.div`
 `;
 const Navbar = () => {
   return (
-    <Container>
+    <Container className="nav">
       <Wrapper>
         <Left>
           <SearchContainer>

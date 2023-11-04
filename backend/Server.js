@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 app.use(cors());
 app.use(express.json());
 const authRoute = require("./routes/auth");
+const userRoute = require("./routes/user");
 mongoose
   .connect("mongodb://localhost:27017/clothing")
   .then(() => {
@@ -14,6 +15,7 @@ mongoose
     console.log(err);
   });
 app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
 
 app.listen(5001, (req, res) => {
   console.log("Running");

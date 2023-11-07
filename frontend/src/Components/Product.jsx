@@ -16,7 +16,10 @@ const Container = styled.div`
   margin: 5px;
 `;
 const Circle = styled.div``;
-const Image = styled.img``;
+const Image = styled.img`
+  height: 75%;
+  z-index: 2;
+`;
 const Info = styled.div`
   display: flex;
 `;
@@ -34,11 +37,11 @@ const Icon = styled.div`
     background-color: #e9f5f5;
     transform: scale(1.1);
   `;
-const Product = ({ items }) => {
+const Product = ({ item }) => {
   return (
     <Container>
       <Circle />
-      <Image />
+      <Image src={item.image}/>
       <Info>
         <Icon>
           <ShoppingCartOutlined />

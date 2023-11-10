@@ -33,7 +33,7 @@ export const categories = [
     id: 1,
     img: "",
     title: "Jeans",
-    cat: "coat",
+    cat: "women",
   },
   {
     id: 2,

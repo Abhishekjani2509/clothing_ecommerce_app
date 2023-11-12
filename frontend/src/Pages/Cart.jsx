@@ -3,6 +3,7 @@ import Navbar from "../Components/Navbar";
 import Announcements from "../Components/Announcements";
 import Footer from "../Components/Footer";
 import { Add, Remove } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 20px;
@@ -71,50 +72,50 @@ const Productsize = styled.span``;
 const Pricedetail = styled.div`
   flex: 1;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
 const ProductAmountcontainer = styled.div`
-    display:flex;
-    align-items:center;
-    margin-bottom:20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 const Productamount = styled.div`
-    font-size:24px;
-    margin:5px;
+  font-size: 24px;
+  margin: 5px;
 `;
 const Productprice = styled.div`
-    font-size:30px;
-    font-weight:300;
+  font-size: 30px;
+  font-weight: 300;
 `;
 const Summary = styled.div`
   flex: 1;
-  border:0.5px solid grey;
-  padding:20px;
-  height:50vh;
+  border: 0.5px solid grey;
+  padding: 20px;
+  height: 50vh;
 `;
 const Summarytitle = styled.h1`
-    font-weight:200;
+  font-weight: 200;
 `;
 const Summaryitem = styled.div`
-    margin:30px 0px;
-    display:flex;
-    justify-content:space-between;
-    font-weight:${props => props.type === "total" && "500"};
-    font-size:${props => props.type === "total" && "24px"};
+  margin: 30px 0px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: ${(props) => props.type === "total" && "500"};
+  font-size: ${(props) => props.type === "total" && "24px"};
 `;
 const Summaryitemtext = styled.span``;
 const Summaryitemprice = styled.span``;
 const Button = styled.button`
-    width:100%;
-    padding:10px;
-    color:white;
-    font-weight:600;
-    background-color:black;
-
+  width: 100%;
+  padding: 10px;
+  color: white;
+  font-weight: 600;
+  background-color: black;
 `;
 const Cart = () => {
+  const cart = useSelector(state => state.cart);
   return (
     <Container>
       <Navbar />
@@ -131,63 +132,52 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <Productdetail>
-                <Image />
-                <Details>
-                  <Productname><b>Product Name: </b>SHOES </Productname>
-                  <Productid><b>ID: </b>951</Productid>
-                  <Productcolor color="black" />
-                  <Productsize><b>Size: </b>40</Productsize>
-                </Details>
-              </Productdetail>
-              <Pricedetail>
-                <ProductAmountcontainer>
-                  <Add/>
-                  <Productamount>2</Productamount>
-                  <Remove/>
-                </ProductAmountcontainer>
-                <Productprice>$30</Productprice>
-              </Pricedetail>
-            </Product>
-            <hr/>
-            <Product>
-              <Productdetail>
-                <Image />
-                <Details>
-                  <Productname><b>Product Name: </b>SHOES </Productname>
-                  <Productid><b>ID: </b>951</Productid>
-                  <Productcolor color="black" />
-                  <Productsize><b>Size: </b>40</Productsize>
-                </Details>
-              </Productdetail>
-              <Pricedetail>
-                <ProductAmountcontainer>
-                  <Add/>
-                  <Productamount>2</Productamount>
-                  <Remove/>
-                </ProductAmountcontainer>
-                <Productprice>$30</Productprice>
-              </Pricedetail>
-            </Product>
+            {cart.products.map((product) => (
+              <Product>
+                <Productdetail>
+                  <Image />
+                  <Details>
+                    <Productname>
+                      <b>Product Name: </b>{product.title}{" "}
+                    </Productname>
+                    <Productid>
+                      <b>ID: </b>{product._id}
+                    </Productid>
+                    <Productcolor color={product.color} />
+                    <Productsize>
+                      <b>Size: </b>{product.size}
+                    </Productsize>
+                  </Details>
+                </Productdetail>
+                <Pricedetail>
+                  <ProductAmountcontainer>
+                    <Add />
+                    <Productamount>{product.quantity}</Productamount>
+                    <Remove />
+                  </ProductAmountcontainer>
+                  <Productprice>${product.quantity * product.price}</Productprice>
+                </Pricedetail>
+              </Product>
+                ))}
+            <hr />
           </Info>
           <Summary>
             <Summarytitle>Order Summary</Summarytitle>
             <Summaryitem>
               <Summaryitemtext>Subtotal: </Summaryitemtext>
-              <Summaryitemprice>$ 50</Summaryitemprice>
+              <Summaryitemprice>$ {cart.total}</Summaryitemprice>
             </Summaryitem>
             <Summaryitem>
               <Summaryitemtext>Shipping Charges: </Summaryitemtext>
-              <Summaryitemprice>$ 5</Summaryitemprice>
+              <Summaryitemprice>$ 5.60</Summaryitemprice>
             </Summaryitem>
             <Summaryitem>
               <Summaryitemtext>Discount: </Summaryitemtext>
-              <Summaryitemprice>$ -5</Summaryitemprice>
+              <Summaryitemprice>$ -5.60</Summaryitemprice>
             </Summaryitem>
             <Summaryitem type="total">
               <Summaryitemtext>Order Total: </Summaryitemtext>
-              <Summaryitemprice>$ 50</Summaryitemprice>
+              <Summaryitemprice>$ {cart.total}</Summaryitemprice>
             </Summaryitem>
             <Button>Checkout Now</Button>
           </Summary>

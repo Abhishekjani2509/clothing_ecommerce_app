@@ -4,6 +4,12 @@ import Announcements from "../Components/Announcements";
 import Footer from "../Components/Footer";
 import { Add, Remove } from "@mui/icons-material";
 import { useSelector } from "react-redux";
+import StripeCheckout from "react-stripe-checkout";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+const KEY = process.env.REACT_APP_STRIPE_PUBLIC_KEY;
+
 const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 20px;
@@ -115,7 +121,31 @@ const Button = styled.button`
   background-color: black;
 `;
 const Cart = () => {
-  const cart = useSelector(state => state.cart);
+  const cart = useSelector((state) => state.cart);
+  const [stripeToken, setStripeToken] = useState([])
+  const navigate = useNavigate();
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+  useEffect(() => {
+    console.log(stripeToken.id);
+    const makeRes = async () => {
+      try {
+        const res = await axios.post(
+          "http://localhost:5001/api/checkout/payment",
+          {
+            tokenId: stripeToken.id,
+            amount: cart.total * 100,
+          }
+        );
+        console.log(res.data)
+        stripeToken.id && navigate("/");
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    makeRes();
+  }, [stripeToken, cart.total, navigate]);
   return (
     <Container>
       <Navbar />
@@ -138,14 +168,17 @@ const Cart = () => {
                   <Image />
                   <Details>
                     <Productname>
-                      <b>Product Name: </b>{product.title}{" "}
+                      <b>Product Name: </b>
+                      {product.title}{" "}
                     </Productname>
                     <Productid>
-                      <b>ID: </b>{product._id}
+                      <b>ID: </b>
+                      {product._id}
                     </Productid>
                     <Productcolor color={product.color} />
                     <Productsize>
-                      <b>Size: </b>{product.size}
+                      <b>Size: </b>
+                      {product.size}
                     </Productsize>
                   </Details>
                 </Productdetail>
@@ -155,10 +188,12 @@ const Cart = () => {
                     <Productamount>{product.quantity}</Productamount>
                     <Remove />
                   </ProductAmountcontainer>
-                  <Productprice>${product.quantity * product.price}</Productprice>
+                  <Productprice>
+                    ${product.quantity * product.price}
+                  </Productprice>
                 </Pricedetail>
               </Product>
-                ))}
+            ))}
             <hr />
           </Info>
           <Summary>
@@ -179,7 +214,17 @@ const Cart = () => {
               <Summaryitemtext>Order Total: </Summaryitemtext>
               <Summaryitemprice>$ {cart.total}</Summaryitemprice>
             </Summaryitem>
-            <Button>Checkout Now</Button>
+            <StripeCheckout
+              name="Shop"
+              billingAddress
+              shippingAddress
+              description="Safe Payment"
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <Button>Checkout Now</Button>
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>

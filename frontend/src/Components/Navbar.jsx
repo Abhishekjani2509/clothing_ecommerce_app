@@ -49,7 +49,6 @@ const Input = styled.div`
 `;
 const Navbar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
-  console.log(quantity);
   return (
     <Container className="nav">
       <Wrapper>
